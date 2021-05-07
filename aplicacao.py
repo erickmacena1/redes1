@@ -1,3 +1,2 @@
-msg = "Hello world"
+print("Cobrinha online")
 
-print(msg)
