@@ -15,15 +15,17 @@ def Main():
     s.connect((host,port))
   
     # message you send to server
-    message = ['1', '50']
+    message = '1'
     while True:
   
         # message sent to server
-        s.send(m.encode('ascii') for m in message)
+        s.send(m.encode('ascii'))
   
         # message received from server
         data = s.recv(1024)
-  
+
+        #if str(data.decode('ascii')) == '#01':
+
         # print the received message
         # here it would be a reverse of sent message
         print('Received from the server :',str(data.decode('ascii')))
