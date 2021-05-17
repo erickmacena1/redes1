@@ -15,29 +15,35 @@ def Main():
     s.connect((host,port))
   
     # message you send to server
-    message = '1'
+    message = input()
     while True:
   
         # message sent to server
-        s.send(m.encode('ascii'))
+        s.send(message.encode())
+        print('Enviado messagem')
   
         # message received from server
-        data = s.recv(1024)
+        data_msg = s.recv(1024)
 
-        #if str(data.decode('ascii')) == '#01':
-
-        # print the received message
-        # here it would be a reverse of sent message
-        print('Received from the server :',str(data.decode('ascii')))
-  
-        # ask the client whether he wants to continue
-        ans = input('\nDo you want to continue(y/n) :')
-        if ans == 'y':
-            continue
-        else:
+        if str(data_msg.decode()) == '#01':
+            score = input()
+            s.send(score.encode())
+            print('Enviado score')
             break
-    # close the connection
-    s.close()
+        
+        if str(data_msg.decode()) == '#02':
+            data_ans1 = s.recv(1024)
+            scoreboard = eval(data_ans1.decode())
+
+            data_ans2 = s.recv(1024)
+            positions = eval(data_ans2.decode())
+
+            for a, b in zip(positions, scoreboard):
+                print(a, b)
+                
+            break
+
+    s.close()   
   
 if __name__ == '__main__':
     Main()
