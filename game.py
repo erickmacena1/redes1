@@ -54,7 +54,7 @@ def game_intro():
                     pygame.quit()
                     quit()
                 if event.key == pygame.K_c:
-                    intro = False
+                    gameLoop()
 
         gameDisplay.fill(white)
         message_to_screen("Jogo da Cobrinha",
@@ -151,6 +151,55 @@ def message_to_screen(msg, color, y_displace=0, size="small"):
     textRect.center = (display_width / 2), (display_height / 2) + y_displace
     gameDisplay.blit(textSurf, textRect)
 
+# score_list = 
+def scoreScreen(score_list=[['']]):
+    gameScore = True
+
+    scoreLen = len(score_list)
+    scoreStr = ''
+
+    if scoreLen == 0:
+        scoreStr = "Sem pontuações..."
+    else:
+        for i in range(scoreLen):
+            scoreStr += str(i + 1) + '° - ' 
+            scoreStr += '\n'
+
+    while gameScore:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+                if event.key == pygame.K_c:
+                    gameScore = False
+                    gameLoop()
+
+        gameDisplay.fill(white)
+        message_to_screen("MELHORES PONTUAÇÕES",
+                          green,
+                          -200,
+                          "large")
+        message_to_screen("O objetivo do jogo é comer as maçãs vermelhas",
+                          red,
+                          -30)
+        message_to_screen("Quanto mais maçãs você comer, maior você fica",
+                          black,
+                          10)
+        message_to_screen("Se você se morder ou bater nas paredes, você perde!",
+                          black,
+                          50)
+        message_to_screen("Aperte C para jogar, P para pausar ou Q para sair!",
+                          black,
+                          180)
+
+        pygame.display.update()
+        clock.tick(5)
+
 
 def gameLoop():
     global direction
@@ -176,10 +225,13 @@ def gameLoop():
             gameDisplay.fill(white)
             message_to_screen("VOCÊ PERDEU",
                               red,
-                              y_displace=-50,
+                              y_displace=-100,
                               size="large")
 
             message_to_screen("Aperte C para jogar de novo ou Q para sair",
+                              black,
+                              y_displace=50)
+            message_to_screen("Para enviar ao servidor aperte E",
                               black,
                               y_displace=50)
             pygame.display.update()
@@ -193,6 +245,8 @@ def gameLoop():
                     if event.key == pygame.K_q:
                         gameExit = True
                         gameOver = False
+                    if event.key == pygame.K_e:
+                        scoreScreen()
                     if event.key == pygame.K_c:
                         gameLoop()
 
@@ -265,6 +319,3 @@ def gameLoop():
     pygame.quit()
     quit()
 
-
-game_intro()
-gameLoop()
