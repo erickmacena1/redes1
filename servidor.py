@@ -26,6 +26,7 @@ def add_to_scoreboard(c):
         #recebe o score e o adiciona no array
         scoreboard.append(data.decode())
         scoreboard.sort(reverse = True)
+        scoreboard = scoreboard[:4]
 
     #fecha a conexão
     c.close()
@@ -78,7 +79,7 @@ def Main():
     print("socket acionado a porta", port)
   
     # o socket passa a escutar por conexões
-    s.listen(3)
+    s.listen(4)
     print("socket está ouvindo")
   
     # loop infinito até fechar o servidor
