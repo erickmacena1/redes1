@@ -10,5 +10,5 @@ Nesse projeto desenvolvemos uma socket de rede e uma aplicação, para exercitar
    - **pickle**
 2. No terminal que será responsável por rodar o servidor, execute o arquivo *servidor.py*
 3. No(s) terminal(is) que irá(ão) rodar o jogo, execute o arquivo *game.py*
-4. No jogo que se abrir, aparecerá instruções na parte de baixo da janela com a tecla que o usuário deverá apertar caso queira jogar ou enviar seu score ao servidor
-5. Caso perca, aparecerá instruções na parte de baixo da janela com a tecla que o usuário deverá caso queira enviar para o servidor seu score ou não.
+4. Quando o jogo abrir, aparecerá instruções na parte de baixo da janela com a tecla que o usuário deverá apertar.
+5. Caso perca, aparecerá instruções na tela mostrando a tecla que o usuário deverá apertar caso queira enviar seu score para o servidor ou tentar denovo.
