@@ -25,4 +25,6 @@ O servidor poderia hospedar os jogadores em tempo real, como em jogos de batalha
 
 A lógica da colisão com objetos que não tem o mesmo tamanho de um pouco de trabalho, mas conseguimos concluir. Ainda na parte da aplicação, a lógica da rotação da imagem da cauda da cobra não foi concluída por má gestão de tempo, pois, por causa de alguns atrasos acabamos deixando de segundo plano, assim como partidas com multiplas cobras na mesma tela.
 
+### Recepção de mensagens do servidor
 
+Quando fizemos o decode da mensagem do servidor, percebemos um erro que acontecia eventualmente, relacionado a algum tipo de incompreensão de bytes, por parte da função decode do python. Buscamos soluções mas não tivemos muito êxito, quando encapsulamos a parte problemáica do código com a ferramenta de controle try, do python, o erro deixou de acontecer, mas ainda não conseguimos soluciona-lo propriamente falando.
