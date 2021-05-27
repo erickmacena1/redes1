@@ -25,14 +25,14 @@ def Main():
         data_msg = s.recv(1024)
 
         # verifica qual mensagem recebida
-        if data_msg.decode() == '#01':
+        if data_msg.decode() == '01':
             # caso seja a primeira resposta, ele envia o score da partida, armazenando no servidor
             score = input()
             s.send(score.encode().strip())
             print('Enviado score')
             break
 
-        elif data_msg.decode() == '#02':
+        elif data_msg.decode() == '02':
             # caso seja a segunda resposta, ele pede o scoreboard, printando na tela
             data_sco = s.recv(1024)
             rec_sco = pickle.loads(data_sco)

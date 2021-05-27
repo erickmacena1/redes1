@@ -9,7 +9,6 @@ print_lock = threading.Lock()
 scoreboard = []
 msg_01 = '#01'
 msg_02 = '#02'
-msg_05 = '#05'
 msg_err = 'Error'
 
 

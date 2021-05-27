@@ -343,21 +343,25 @@ def gameLoop():
                 gameExit = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    direction = "left"
-                    lead_x_change = -block_size
-                    lead_y_change = 0
+                    if direction != "right":
+                        direction = "left"
+                        lead_x_change = -block_size
+                        lead_y_change = 0
                 elif event.key == pygame.K_RIGHT:
-                    direction = "right"
-                    lead_x_change = block_size
-                    lead_y_change = 0
+                    if direction != "left":
+                        direction = "right"
+                        lead_x_change = block_size
+                        lead_y_change = 0
                 elif event.key == pygame.K_UP:
-                    direction = "up"
-                    lead_y_change = -block_size
-                    lead_x_change = 0
+                    if direction != "down":
+                        direction = "up"
+                        lead_y_change = -block_size
+                        lead_x_change = 0
                 elif event.key == pygame.K_DOWN:
-                    direction = "down"
-                    lead_y_change = block_size
-                    lead_x_change = 0
+                    if direction != "up":
+                        direction = "down"
+                        lead_y_change = block_size
+                        lead_x_change = 0
 
                 elif event.key == pygame.K_p:
                     pause()
