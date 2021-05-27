@@ -8,11 +8,8 @@ import pygame
 
 ############ CLIENT GLOBALS ############
 
-
 host = '127.0.0.1'
-
 port = 10000
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 ############ GAME GLOBALS ############
@@ -186,14 +183,92 @@ def score_to_screen(scoreList=[]):
                           y_displace=(i * 35))
 
 
-def scoreScreen(score):
+def serverComunication(msg, score=-1):
+    resposta = ["status", "valor"]
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     s.connect((host, port))
+    
+    s.send(str(msg).encode())
 
-    scoreList = []
+    data_msg = s.recv(1024)
+
+    msg_decoded = ''
+
+    try:
+        msg_decoded = data_msg.decode()
+        resposta[0] = "OK"
+    except:
+        resposta[0] = "DECERR"
+        resposta[1] = [score, "Decode Error"]
+        return resposta
+
+    if msg_decoded == '#01':
+        # caso seja a primeira resposta, ele envia o score da partida, armazenando no servidor
+        s.send(str(score).encode().strip())
+        resposta[1] = "Score Enviado"
+            
+    elif msg_decoded == '#02':
+        # caso seja a segunda resposta, ele pede o scoreboard, printando na tela
+        data_sco = s.recv(1024)
+        rec_sco = pickle.loads(data_sco)
+        resposta[1] = rec_sco[:4]
+        
+    # caso o usuário tenha enviado, um código inválido, ele fecha a conexão
+    else:
+        resposta[0] = "Invalido"
+        resposta[1] = "Invalido"
+            
+    s.close()
+
+    return resposta
+
+def scoreScreen(score):
+    resposta1 = serverComunication(1, score)
+    
+    resposta2 = serverComunication(2)
+
+    scoreList = resposta2[1]
+    gameDisplay.fill(white)
+
+    if resposta1[0] != "OK":
+        message_to_screen("Erro",
+                        green,
+                        -200,
+                        "large")
+        message_to_screen("Inesperado",
+                        green,
+                        -110,
+                        "large")
+        message_to_screen(":(",
+        green,
+        -30,
+        "large")
+
+    else:
+        message_to_screen("MELHORES",
+                        green,
+                        -200,
+                        "large")
+
+        message_to_screen("PONTUAÇÕES",
+                        green,
+                        -110,
+                        "large")
+
+        score_to_screen(scoreList)
+
+        message_to_screen("Aperte C para tentar se superar",
+                        black,
+                        150)
+
+        message_to_screen("Aperte Q para sair ou I para voltar a tela inicial",
+                        black,
+                        190)
+
+    pygame.display.update()
 
     gameScore = True
-
     while gameScore:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -211,28 +286,6 @@ def scoreScreen(score):
                     gameScore = False
                     introScreen()
 
-        gameDisplay.fill(white)
-        message_to_screen("MELHORES",
-                          green,
-                          -200,
-                          "large")
-
-        message_to_screen("PONTUAÇÕES",
-                          green,
-                          -110,
-                          "large")
-
-        score_to_screen(scoreList)
-
-        message_to_screen("Aperte C para tentar se superar",
-                          black,
-                          150)
-
-        message_to_screen("Aperte Q para sair ou I para voltar a tela inicial",
-                          black,
-                          190)
-
-        pygame.display.update()
         clock.tick(5)
 
 

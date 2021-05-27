@@ -25,8 +25,10 @@ def add_to_scoreboard(c):
             break
 
         # recebe o score e o adiciona no array
-        scoreboard.append(data.decode())
+        print("Nova pontuação adicionada: ", int(data.decode()))
+        scoreboard.append(int(data.decode()))
         scoreboard.sort(reverse=True)
+        print("Pontuações: ", scoreboard)
 
     # fecha a conexão
     c.close()
@@ -53,18 +55,18 @@ def select_options(c):
         # de acordo com a opção enviada pelo cliente, ele envia para uma outra função
         if data.decode() == '1':
             print('Recebido pedido 1')
-            c.send(msg_01.encode())
+            c.send(msg_01.encode().strip())
             add_to_scoreboard(c)
 
         elif data.decode() == '2':
             print('Recebido pedido 2')
-            c.send(msg_02.encode())
+            c.send(msg_02.encode().strip())
             send_scoreboard(c)
             print_lock.release()
 
         else:
             print('Código não reconhecido, fechando conexão')
-            c.send(msg_err.encode())
+            c.send(msg_err.encode().strip())
             print_lock.release()
 
         break
