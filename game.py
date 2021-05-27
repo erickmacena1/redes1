@@ -1,7 +1,22 @@
-import pygame
+import socket
+import pickle
 import time
 import random
 import os
+import pygame
+
+
+############ CLIENT GLOBALS ############
+
+
+host = '127.0.0.1'
+
+port = 10000
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+
+############ GAME GLOBALS ############
+
 
 pygame.init()
 
@@ -42,12 +57,15 @@ medfont = pygame.font.Font(font_path, 42)
 largefont = pygame.font.Font(font_path, 60)
 
 
-def game_intro():
+############ GAME FUNCTIONS ############
+
+
+def introScreen():
 
     gameDisplay.fill(white)
     message_to_screen("Jogo da Cobrinha",
                         green,
-                        -100,
+                        -150,
                         "large")
     message_to_screen("O objetivo do jogo é comer as maçãs vermelhas",
                         black,
@@ -168,10 +186,13 @@ def score_to_screen(scoreList=[]):
                           y_displace=(i * 35))
 
 
-def scoreScreen():
-    gameScore = True
+def scoreScreen(score):
+
+    s.connect((host, port))
 
     scoreList = []
+
+    gameScore = True
 
     while gameScore:
         for event in pygame.event.get():
@@ -188,7 +209,7 @@ def scoreScreen():
                     gameLoop()
                 if event.key == pygame.K_i:
                     gameScore = False
-                    game_intro()
+                    introScreen()
 
         gameDisplay.fill(white)
         message_to_screen("MELHORES",
@@ -260,7 +281,7 @@ def gameLoop():
                         gameExit = True
                         gameOver = False
                     if event.key == pygame.K_e:
-                        scoreScreen()
+                        scoreScreen(snakeLength - 1)
                     if event.key == pygame.K_c:
                         gameLoop()
 
@@ -333,3 +354,8 @@ def gameLoop():
     pygame.quit()
     quit()
 
+
+############ GAME START ############
+
+if __name__ == "__main__":
+    introScreen()
