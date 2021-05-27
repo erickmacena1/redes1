@@ -4,7 +4,10 @@ Nesse projeto desenvolvemos uma socket de rede e uma aplicação, para exercitar
 
 ## Rodando a aplicação
 
-1. É preciso ter as seguintecas bibliotecas do Python instaladas no sistema: pygame, socket e pickle.
+1. É preciso ter as seguintecas bibliotecas do Python instaladas no sistema:
+   - **pygame**
+   - **socket**
+   - **pickle**
 2. No terminal que será responsável por rodar o servidor, execute o arquivo *servidor.py*
 3. No(s) terminal(is) que irá(ão) rodar o jogo, execute o arquivo *game.py*
 4. No jogo que se abrir, aparecerá instruções na parte de baixo da janela com a tecla que o usuário deverá apertar caso queira jogar ou enviar seu score ao servidor
