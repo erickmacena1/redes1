@@ -35,15 +35,36 @@ appleThickness = 30
 clock = pygame.time.Clock()
 FPS = 15
 
-smallfont = pygame.font.SysFont("comicsansms", 25)
-medfont = pygame.font.SysFont("comicsansms", 50)
-largefont = pygame.font.SysFont("comicsansms", 80)
+font_path = os.path.join(curr_path, "assets", "PixelEmulator-xq08.ttf")
+
+smallfont = pygame.font.Font(font_path, 18)
+medfont = pygame.font.Font(font_path, 42)
+largefont = pygame.font.Font(font_path, 60)
 
 
 def game_intro():
-    intro = True
 
-    while intro:
+    gameDisplay.fill(white)
+    message_to_screen("Jogo da Cobrinha",
+                        green,
+                        -100,
+                        "large")
+    message_to_screen("O objetivo do jogo é comer as maçãs vermelhas",
+                        black,
+                        -30)
+    message_to_screen("Quanto mais maçãs você comer, maior você fica",
+                        black,
+                        10)
+    message_to_screen("Se você se morder ou bater nas paredes, você perde!",
+                        black,
+                        50)
+    message_to_screen("Aperte C para jogar, P para pausar ou Q para sair!",
+                        black,
+                        140)
+
+    pygame.display.update()
+
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -56,25 +77,6 @@ def game_intro():
                 if event.key == pygame.K_c:
                     gameLoop()
 
-        gameDisplay.fill(white)
-        message_to_screen("Jogo da Cobrinha",
-                          green,
-                          -100,
-                          "large")
-        message_to_screen("O objetivo do jogo é comer as maçãs vermelhas",
-                          black,
-                          -30)
-        message_to_screen("Quanto mais maçãs você comer, maior você fica",
-                          black,
-                          10)
-        message_to_screen("Se você se morder ou bater nas paredes, você perde!",
-                          black,
-                          50)
-        message_to_screen("Aperte C para jogar, P para pausar ou Q para sair!",
-                          black,
-                          180)
-
-        pygame.display.update()
         clock.tick(5)
 
 
@@ -85,6 +87,17 @@ def score(score):
 
 def pause():
     paused = True
+
+    # gameDisplay.fill(white)
+    message_to_screen("PAUSADO",
+                        green,
+                        -100,
+                        size="large")
+    message_to_screen("Aperte C para continuar ou Q para sair",
+                        black,
+                        25)
+    pygame.display.update()
+
     while paused:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -98,15 +111,6 @@ def pause():
                     pygame.quit()
                     quit()
 
-        # gameDisplay.fill(white)
-        message_to_screen("PAUSADO",
-                          green,
-                          -100,
-                          size="large")
-        message_to_screen("Aperte C para continuar ou Q para sair",
-                          black,
-                          25)
-        pygame.display.update()
         clock.tick(5)
 
 
@@ -151,19 +155,23 @@ def message_to_screen(msg, color, y_displace=0, size="small"):
     textRect.center = (display_width / 2), (display_height / 2) + y_displace
     gameDisplay.blit(textSurf, textRect)
 
-# score_list = 
-def scoreScreen(score_list=[['']]):
-    gameScore = True
 
-    scoreLen = len(score_list)
-    scoreStr = ''
+def score_to_screen(scoreList=[]):
+    scoreLen = len(scoreList)
 
     if scoreLen == 0:
-        scoreStr = "Sem pontuações..."
+        message_to_screen("Sem pontuações...", red)
     else:
         for i in range(scoreLen):
-            scoreStr += str(i + 1) + '° - ' 
-            scoreStr += '\n'
+            message_to_screen("TOP " + str(i + 1) + " - " + str(scoreList[i]),
+                          red,
+                          y_displace=(i * 35))
+
+
+def scoreScreen():
+    gameScore = True
+
+    scoreList = []
 
     while gameScore:
         for event in pygame.event.get():
@@ -178,24 +186,30 @@ def scoreScreen(score_list=[['']]):
                 if event.key == pygame.K_c:
                     gameScore = False
                     gameLoop()
+                if event.key == pygame.K_i:
+                    gameScore = False
+                    game_intro()
 
         gameDisplay.fill(white)
-        message_to_screen("MELHORES PONTUAÇÕES",
+        message_to_screen("MELHORES",
                           green,
                           -200,
                           "large")
-        message_to_screen("O objetivo do jogo é comer as maçãs vermelhas",
-                          red,
-                          -30)
-        message_to_screen("Quanto mais maçãs você comer, maior você fica",
+
+        message_to_screen("PONTUAÇÕES",
+                          green,
+                          -110,
+                          "large")
+
+        score_to_screen(scoreList)
+
+        message_to_screen("Aperte C para tentar se superar",
                           black,
-                          10)
-        message_to_screen("Se você se morder ou bater nas paredes, você perde!",
+                          150)
+
+        message_to_screen("Aperte Q para sair ou I para voltar a tela inicial",
                           black,
-                          50)
-        message_to_screen("Aperte C para jogar, P para pausar ou Q para sair!",
-                          black,
-                          180)
+                          190)
 
         pygame.display.update()
         clock.tick(5)
@@ -233,7 +247,7 @@ def gameLoop():
                               y_displace=50)
             message_to_screen("Para enviar ao servidor aperte E",
                               black,
-                              y_displace=50)
+                              y_displace=90)
             pygame.display.update()
 
             for event in pygame.event.get():
