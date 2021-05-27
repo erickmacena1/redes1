@@ -27,7 +27,6 @@ def add_to_scoreboard(c):
         # recebe o score e o adiciona no array
         scoreboard.append(data.decode())
         scoreboard.sort(reverse=True)
-        scoreboard = scoreboard[:4]
 
     # fecha a conexão
     c.close()
